@@ -1,47 +1,39 @@
+<?php
+include("config/db.php");
+$result = $conn->query("SELECT * FROM posts ORDER BY created_at DESC");
+?>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Welcome to My PHP Project</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
-
-        .container {
-            background-color: #fff;
-            padding: 30px 40px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            text-align: center;
-        }
-
-        h1 {
-            color: #333;
-            margin-bottom: 20px;
-        }
-
-        p {
-            color: #555;
-            font-size: 16px;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <title>My Blog</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
-    <div class="container">
-        <h1>Hello, ApexPlanet!</h1>
-        <p>This is my first PHP file for the internship.</p>
+<body class="bg-light">
 
-        <?php
-            echo "<p>Today is: " . date("Y-m-d") . "</p>";
-            echo "<p>Server is working properly!</p>";
-        ?>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container">
+    <a class="navbar-brand" href="index.php">My Blog</a>
+    <div>
+      <a href="auth/login.php" class="btn btn-outline-light btn-sm">Login</a>
+      <a href="auth/register.php" class="btn btn-warning btn-sm">Register</a>
     </div>
+  </div>
+</nav>
+
+<div class="container mt-4">
+  <h2 class="mb-4">📝 Latest Posts</h2>
+
+  <?php while ($row = $result->fetch_assoc()) : ?>
+    <div class="card mb-3 shadow-sm">
+      <div class="card-body">
+        <h4 class="card-title"><?= htmlspecialchars($row['title']) ?></h4>
+        <p class="card-text"><?= nl2br(htmlspecialchars($row['content'])) ?></p>
+        <small class="text-muted">Posted on <?= $row['created_at'] ?></small>
+      </div>
+    </div>
+  <?php endwhile; ?>
+</div>
+
 </body>
 </html>
